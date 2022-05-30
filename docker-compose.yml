@@ -1,0 +1,24 @@
+version: '3'
+services:
+    cache_store:
+        image: redis
+        command: redis-server
+        ports:
+            - 6379:6379
+        networks:
+            - redistopython
+
+    app_logic:
+        build: .
+        networks:
+            - redistopython
+        volumes:
+            - .:/app/src
+        environment:
+            - FLASK_APP= app.py
+            - FLASK_RUN_HOST=localhost
+            - FLASK_RUN_PORT=5000
+networks:
+    redistopython:
+        name: jasmine
+        driver: bridge
